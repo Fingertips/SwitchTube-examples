@@ -9,4 +9,4 @@ Usage examples of the [SWITCHtube web service API](http://tube.switch.ch/help/ap
 ## JavaScript embed library
 
 - [Add and control player](embed/add_player.html) shows how to use the embed library to add a video player inside an existing container element on your page, and how to control playback. This is the preferred way to use the embed library from your JavaScript code. You can also view a [live demo of this example](http://embed-examples.fngtps.com/add_player.html).
-- [Control existing iframe](embed/add_player.html) uses the embed library to control playback for a video embedded using the HTML embed code from a SWITCHtube video page. You can also view a [live demo of this example](http://embed-examples.fngtps.com/control_existing_iframe.html).
+- [Control existing iframe](embed/control_existing_iframe.html) uses the embed library to control playback for a video embedded using the HTML embed code from a SWITCHtube video page. You can also view a [live demo of this example](http://embed-examples.fngtps.com/control_existing_iframe.html).
