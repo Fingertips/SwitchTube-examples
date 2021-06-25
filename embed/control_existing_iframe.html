@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Control existing iframe</title>
+<style>
+body
+{
+  font-family: system-ui, sans-serif;
+}
+hgroup h1,
+hgroup h2
+{
+  margin: 0;
+}
+div#video
+{
+  position: relative;
+  /* Keeps the container at a 16:9 aspect ratio no matter its width. */
+  padding-bottom: 56.25%;
+}
+div#video > iframe
+{
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* `width: 100%;` and `height: 100%` are set inline by the embed library. */
+}
+</style>
+</head>
+<body>
+
+<hgroup>
+  <h1>SWITCHtube JS embed library</h1>
+  <h2>Control existing iframe</h2>
+</hgroup>
+
+<p>This example shows how to use the embed library to control playback for a
+  video embedded using the HTML embed code from a SWITCHtube video page.</p>
+
+<!-- Embed code from a SWITCHtube video page. -->
+<iframe width="640" height="360" 
+  src="https://tube.switch.ch/embed/d42e0c7f?title=hide"
+  frameborder="0" allow="fullscreen" allowfullscreen>
+</iframe>
+
+<!-- These buttons are used to demonstrate player control. -->
+<p>
+  <input type="button" name="play" value="Play">
+  <input type="button" name="pause" value="Pause">
+</p>
+
+<!-- These buttons demonstrates how to get status details from the player. -->
+<p>
+  <input type="button" name="ready" value="Ready?">
+  <input type="button" name="time" value="Current time?">
+</p>
+
+<p>The results of the status buttons above are logged to the browser’s
+JavaScript console.</p>
+
+<!-- In this alternative example, the embed library is loaded traditionally. -->
+<script src="https://tube.switch.ch/js/embed.js"></script>
+<script>
+  // Get a player control object for the given iframe reference. This reference
+  // can be an Element instance, a CSS selector, or an element id string.
+  let player = SWITCHtubeEmbed.control('iframe')
+
+  // Add event handlers for the buttons. The methods on the control object will
+  // be available before the video player in the iframe has completed loading,
+  // but they won’t do or return anything, an might trigger cross-domain
+  // warnings in the browser’s JavaScript console.
+  document.querySelector('input[name=play]').addEventListener(
+    'click',
+    player.play
+  )
+  document.querySelector('input[name=pause]').addEventListener(
+    'click',
+    player.pause
+  )
+  document.querySelector('input[name=ready]').addEventListener(
+    'click', () => {
+    player.ready().then((value) => console.log(value))
+  })
+  document.querySelector('input[name=time]').addEventListener(
+    'click', () => {
+    player.currentTime().then((value) => console.log(value))
+  })
+</script>
+
+</body>
+</html>

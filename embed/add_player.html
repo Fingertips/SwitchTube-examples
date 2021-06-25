@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add and control player</title>
+<style>
+body
+{
+  font-family: system-ui, sans-serif;
+}
+hgroup h1,
+hgroup h2
+{
+  margin: 0;
+}
+/* Styling for the container element and iframe that will be added inside. */
+div#video
+{
+  position: relative;
+  /* Keeps the container at a 16:9 aspect ratio no matter its width. */
+  padding-bottom: 56.25%;
+}
+div#video > iframe
+{
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* `width: 100%;` and `height: 100%` are set inline by the embed library. */
+}
+</style>
+<!-- Load the SWITCHtube embed library asynchronous. -->
+<script async src="https://tube.switch.ch/js/embed.js"></script>
+</head>
+<body>
+
+<hgroup>
+  <h1>SWITCHtube JS embed library</h1>
+  <h2>Add and control player</h2>
+</hgroup>
+
+<p>This example shows how to use the SWITCHtube embed library to add a video
+player inside an existing container element, and how to control playback. This
+is the preferred way to use the embed library from your JavaScript code.</p>
+
+<p>The content of the container element will be replaced with an iframe that
+has its width and height set to 100%. Note that the CSS applied in this example
+is just one of the many ways in which the size and positioning of the embedded
+player can be controlled.</p>
+
+<!-- This element will be used as a container for the player iframe. -->
+<div id="video"></div>
+
+<!-- These input elements are used to demonstrate player control. -->
+<p>
+  <input type="button" name="play" value="Play">
+  <input type="button" name="pause" value="Pause">
+  <input type="number" name="position" value="0">
+</p>
+
+<!-- These buttons demonstrate how to get status details from the player. -->
+<p>
+  <input type="button" name="ready" value="Ready?">
+  <input type="button" name="playing" value="Playing?">
+  <input type="button" name="duration" value="Duration?">
+  <input type="button" name="time" value="Current time?">
+</p>
+
+<script>
+  // Usage of the embed library is wrapped in this function. More on that below.
+  function addVideo() {
+    // Find the element to be used as the container for the player iframe.
+    let container = document.querySelector('div#video')
+
+    // Once the player has been loaded inside the iframe, the embed library
+    // will trigger a `SWITCHtubeEmbed:load` event on the container element.
+    // It is recommended to set up usage of the player control object in
+    // response to this event.
+    container.addEventListener('SWITCHtubeEmbed:load', (event) => {
+      // Get the player control object from the event’s `detail` property.
+      let player = event.detail
+
+      // Add event handlers for the input elements that control playback. The
+      // `play` and `pause` methods start and stop playback and the `seek`
+      // method changes the current playback time.
+      document.querySelector('input[name=play]').addEventListener(
+        'click',
+        player.play
+      )
+      document.querySelector('input[name=pause]').addEventListener(
+        'click',
+        player.pause
+      )
+      document.querySelector('input[name=position]').addEventListener(
+        'change',
+        (event) => {
+          // Time is in seconds, fractional values are allowed.
+          player.seek(event.target.value)
+        }
+      )
+
+      // Add event handlers for the status buttons. The status methods return
+      // promises that resolves to the value of the requested attribute.
+      document.querySelector('input[name=ready]').addEventListener(
+        'click', () => {
+        // Resolves to `true` when the video is ready for playback, `false`
+        // otherwise
+        player.ready().then(alert)
+      })
+      document.querySelector('input[name=playing]').addEventListener(
+        // Resolves to `true` when the video is currently playing, `false`
+        // when it is paused.
+        'click', () => {
+        player.playing().then(alert)
+      })
+      document.querySelector('input[name=duration]').addEventListener(
+        // Resolves to the duration of the video in seconds.
+        'click', () => {
+        player.duration().then(alert)
+      })
+      document.querySelector('input[name=time]').addEventListener(
+        // Resolves to the current playback time in seconds.
+        'click', () => {
+        player.currentTime().then(alert)
+      })
+    })
+
+    // With a handler for the `SWITCHtubeEmbed:load` added, the player can be
+    // added and the video loaded. The `player` method requires a reference to
+    // the container element and a SWITCHtube video URL as its arguments.
+    //
+    // The `player` method returns the same player control object as is
+    // available from the `SWITCHtubeEmbed:load` event’s `detail` property, but
+    // this is not used here.
+    SWITCHtubeEmbed.player(
+      // The reference can be an Element instance, a CSS selector, or an
+      // element id string. Here we’re using the element assigned above.
+      container,
+      // Both the video page as well as the embed URL can be used. The URL can
+      // include query parameters that control the appearance of the player
+      // (e.g. `?title=hide` to hide the video title) and a fragment identifier
+      // can be appended  to set the start time (e.g. `#30` to start at 30
+      // seconds).
+      'https://tube.switch.ch/videos/d42e0c7f'
+    )
+  }
+
+  // Because the embed library is loaded asynchronous, it might or might not be
+  // available when your code runs. This is why its usage is wrapped  in the
+  // `addVideo` function defined above.
+  if (window.SWITCHtubeEmbed) {
+    // If the embed library is available, call `addVideo` directly.
+    addVideo()
+  } else {
+    // If the embed library is not yet available, add `addVideo` as the event
+    // handler for the `SWITCHtubeEmbed:ScriptLoaded` event. This event will be
+    // triggered by the embed library when it has finished loading to indicate
+    // that it is available for usage.
+    window.addEventListener('SWITCHtubeEmbed:ScriptLoaded', addVideo)
+  }
+</script>
+
+</body>
+</html>
