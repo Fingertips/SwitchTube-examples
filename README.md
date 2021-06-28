@@ -5,6 +5,8 @@ Usage examples of the [SWITCHtube web service API](http://tube.switch.ch/help/ap
 ## Web service API
 
 - [download-channel.py](api/download-channel.py) is a Python script that illustrates basic usage of the web service. It allows you to downloading all video from a given channel using an access token from your SWITCHtube profile.
+- [list-channels.py](api/list-channels.py) list channels you can contribute to.
+- [upload.py](api/upload.py) allows you to upload a video to a channel you can contribute to.
 
 ## JavaScript embed library
 
