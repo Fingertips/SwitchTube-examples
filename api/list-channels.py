@@ -19,7 +19,7 @@ update the CA bundle.
 import argparse
 import requests
 
-ORIGIN = 'https://staging.tube.switch.ch'
+ORIGIN = 'https://tube.switch.ch'
 
 # Define and parse command line arguments.
 parser = argparse.ArgumentParser(
