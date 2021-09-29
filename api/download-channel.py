@@ -12,6 +12,9 @@ information.
 It depends on the Requests HTTP library. On most systems, this can be installed
 using `python3 -m pip install requests`.
 
+It also depends on the pathvalidate library to sanitize filenames. This can be
+installed using `python3 -m pip install pathvalidate`.
+
 In case of a "SSLCertVerificationError", run `pip install --upgrade certifi` to
 update the CA bundle.
 """
@@ -19,8 +22,9 @@ update the CA bundle.
 import argparse
 import pathlib
 import requests
+import pathvalidate
 
-ROOT_URL = 'https://tube.switch.ch/'
+ORIGIN = 'https://tube.switch.ch'
 
 
 def truncate(string, length=60):
@@ -88,7 +92,7 @@ arguments = parser.parse_args()
 # multiple “pages” as explain in https://tube.switch.ch/api.html#pagination
 
 # Create a URL to list videos using the channel id command line argument.
-videos_url = ROOT_URL + \
+videos_url = ORIGIN + \
     '/api/v1/browse/channels/{}/videos'.format(arguments.channel)
 # Loop as long as there’s a URL.
 while videos_url:
@@ -97,7 +101,7 @@ while videos_url:
     # Loop through the returned videos.
     for video in videos:
         # Create a URL to list the available variants using the video id.
-        variants_url = ROOT_URL + \
+        variants_url = ORIGIN + \
             '/api/v1/browse/videos/{}/video_variants'.format(video['id'])
         # Get the available video variants. The next page URL can be ignored as
         # only the first variant will be used (the number of variants is also
@@ -110,9 +114,10 @@ while videos_url:
             filename = video['id'] + '-' + video['title'] + '.mp4'
             # Build a local filesystem path to save the downloaded file to
             # using the target directory command line argument.
-            path = arguments.target_directory / filename
+            path = arguments.target_directory / \
+                pathvalidate.sanitize_filename(filename)
             # Variants are ordered on quality level with the highest quality
             # variant listed first. Create the URL to the first variant.
-            variant_url = ROOT_URL + variants[0]['path']
+            variant_url = ORIGIN + variants[0]['path']
             # Download from the variant URL path to the local filesystem path.
             download(variant_url, path)
