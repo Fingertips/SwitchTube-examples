@@ -22,10 +22,13 @@ update the CA bundle.
 import argparse
 import pathlib
 import requests
+import time
 import tus
 
 ORIGIN = 'https://tube.switch.ch'
-RETRIES = 10
+RETRIES = 25
+SHORT_WAIT = 5 # seconds
+LONG_WAIT = 30 # seconds
 
 # Define and parse command line arguments.
 parser = argparse.ArgumentParser(
@@ -52,6 +55,11 @@ with open(arguments.path, 'rb') as fd:
         try:
             tus.resume(fd, upload_url, headers=headers)
         except tus.TusError:
+            time.sleep(SHORT_WAIT)
+            continue
+        except requests.exceptions.HTTPError as e:
+            print(e)
+            time.sleep(LONG_WAIT)
             continue
         break
 
