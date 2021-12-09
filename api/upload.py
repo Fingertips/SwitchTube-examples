@@ -25,6 +25,7 @@ import requests
 import tus
 
 ORIGIN = 'https://tube.switch.ch'
+RETRIES = 10
 
 # Define and parse command line arguments.
 parser = argparse.ArgumentParser(
@@ -46,7 +47,13 @@ with open(arguments.path, 'rb') as fd:
         arguments.path.stat().st_size,
         headers=headers
     )
-    tus.resume(fd, upload_url, headers=headers)
+    # Uploading a segment may fail so we retry up-to 10 times for every upload.
+    for i in range(0, RETRIES):
+        try:
+            tus.resume(fd, upload_url, headers=headers)
+        except tus.TusError:
+            continue
+        break
 
 # Create a new video with the uploaded file.
 response = requests.post(
