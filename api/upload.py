@@ -26,6 +26,7 @@ import tus
 
 ORIGIN = 'https://tube.switch.ch'
 RETRIES = 10
+CHUNK_SIZE = 52428800 # 50 megabytes
 
 # Define and parse command line arguments.
 parser = argparse.ArgumentParser(
@@ -50,7 +51,7 @@ with open(arguments.path, 'rb') as fd:
     # Uploading a segment may fail so we retry up-to 10 times for every upload.
     for i in range(0, RETRIES):
         try:
-            tus.resume(fd, upload_url, headers=headers)
+            tus.resume(fd, upload_url, chunk_size=CHUNK_SIZE, headers=headers)
         except tus.TusError:
             continue
         break
