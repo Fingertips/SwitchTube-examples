@@ -1,11 +1,11 @@
-"""Upload a video to a channel using the SWITCHtube web service API.
+"""Upload a video to a channel using the Switch Tube web service API.
 
 Assuming the access token `Hbmqqdc8x49Qjk1L3BKBAec`, upload `video.mp4` to the
 channel with id `42` using `Maths 101` as its title:
 
     $ python3 upload.py Hbmqqdc8x49Qjk1L3BKBAec 42 video.mp4 "Maths 101"
 
-This script is intended to illustrate usage of the SWITCHtube web service API
+This script is intended to illustrate usage of the Switch Tube web service API
 and is provided “as is”. Please see https://tube.switch.ch/api.html for more
 information.
 
@@ -30,8 +30,8 @@ CHUNK_SIZE = 52428800 # 50 megabytes
 
 # Define and parse command line arguments.
 parser = argparse.ArgumentParser(
-    description='Upload a video to a SWITCHtube channel.')
-parser.add_argument('token', help='access token from your SWITCHtube profile')
+    description='Upload a video to a Switch Tube channel.')
+parser.add_argument('token', help='access token from your Switch Tube profile')
 parser.add_argument('channel', help='id of the channel')
 parser.add_argument('path', type=pathlib.Path, help='file to upload')
 parser.add_argument('title', help='video title')

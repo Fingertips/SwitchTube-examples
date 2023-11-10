@@ -1,11 +1,11 @@
-"""Download all video from a channel using the SWITCHtube web service API.
+"""Download all video from a channel using the Switch Tube web service API.
 
 Assuming the access token `Hbmqqdc8x49Qjk1L3BKBAec`, download all video from
 the channel with id `c61x4b` to a directory named `videos` by running:
 
     $ python3 download-channel.py Hbmqqdc8x49Qjk1L3BKBAec c61x4b ./videos
 
-This script is intended to illustrate usage of the SWITCHtube web service API
+This script is intended to illustrate usage of the Switch Tube web service API
 and is provided “as is”. Please see https://tube.switch.ch/api.html for more
 information.
 
@@ -81,8 +81,8 @@ def download(url, path):
 
 # Define and parse command line arguments.
 parser = argparse.ArgumentParser(
-    description='Download all video from a SWITCHtube channel.')
-parser.add_argument('token', help='access token from your SWITCHtube profile')
+    description='Download all video from a Switch Tube channel.')
+parser.add_argument('token', help='access token from your Switch Tube profile')
 parser.add_argument('channel', help='id of the channel')
 parser.add_argument(
     'target_directory', type=pathlib.Path, help='directory to download to')
