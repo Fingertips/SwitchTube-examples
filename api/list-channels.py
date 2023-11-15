@@ -1,11 +1,11 @@
-"""Use the SWITCHtube web service API to list channels you can contribute to.
+"""Use the Switch Tube web service API to list channels you can contribute to.
 
 Assuming the access token `Hbmqqdc8x49Qjk1L3BKBAec`, list the channels you
 can contribute to:
 
     $ python3 list-channels.py Hbmqqdc8x49Qjk1L3BKBAec
 
-This script is intended to illustrate usage of the SWITCHtube web service API
+This script is intended to illustrate usage of the Switch Tube web service API
 and is provided “as is”. Please see https://tube.switch.ch/api.html for more
 information.
 
@@ -23,8 +23,8 @@ ORIGIN = 'https://tube.switch.ch'
 
 # Define and parse command line arguments.
 parser = argparse.ArgumentParser(
-    description='List the channels you own on SWITCHtube.')
-parser.add_argument('token', help='access token from your SWITCHtube profile')
+    description='List the channels you own on Switch Tube.')
+parser.add_argument('token', help='access token from your Switch Tube profile')
 arguments = parser.parse_args()
 
 # Get channels and show their id and title.

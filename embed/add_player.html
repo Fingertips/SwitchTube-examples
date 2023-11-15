@@ -28,17 +28,17 @@ div#video > iframe
   /* `width: 100%;` and `height: 100%` are set inline by the embed library. */
 }
 </style>
-<!-- Load the SWITCHtube embed library asynchronous. -->
+<!-- Load the Switch Tube embed library asynchronous. -->
 <script async src="https://tube.switch.ch/js/embed.js"></script>
 </head>
 <body>
 
 <hgroup>
-  <h1>SWITCHtube JS embed library</h1>
+  <h1>Switch Tube JS embed library</h1>
   <h2>Add and control player</h2>
 </hgroup>
 
-<p>This example shows how to use the SWITCHtube embed library to add a video
+<p>This example shows how to use the Switch Tube embed library to add a video
 player inside an existing container element, and how to control playback. This
 is the preferred way to use the embed library from your JavaScript code.</p>
 
@@ -72,10 +72,10 @@ player can be controlled.</p>
     let container = document.querySelector('div#video')
 
     // Once the player has been loaded inside the iframe, the embed library
-    // will trigger a `SWITCHtubeEmbed:load` event on the container element.
+    // will trigger a `SwitchTubeEmbed:load` event on the container element.
     // It is recommended to set up usage of the player control object in
     // response to this event.
-    container.addEventListener('SWITCHtubeEmbed:load', (event) => {
+    container.addEventListener('SwitchTubeEmbed:load', (event) => {
       // Get the player control object from the event’s `detail` property.
       let player = event.detail
 
@@ -124,14 +124,14 @@ player can be controlled.</p>
       })
     })
 
-    // With a handler for the `SWITCHtubeEmbed:load` added, the player can be
+    // With a handler for the `SwitchTubeEmbed:load` added, the player can be
     // added and the video loaded. The `player` method requires a reference to
-    // the container element and a SWITCHtube video URL as its arguments.
+    // the container element and a SwitchTube video URL as its arguments.
     //
     // The `player` method returns the same player control object as is
-    // available from the `SWITCHtubeEmbed:load` event’s `detail` property, but
+    // available from the `SwitchTubeEmbed:load` event’s `detail` property, but
     // this is not used here.
-    SWITCHtubeEmbed.player(
+    SwitchTubeEmbed.player(
       // The reference can be an Element instance, a CSS selector, or an
       // element id string. Here we’re using the element assigned above.
       container,
@@ -147,15 +147,15 @@ player can be controlled.</p>
   // Because the embed library is loaded asynchronous, it might or might not be
   // available when your code runs. This is why its usage is wrapped  in the
   // `addVideo` function defined above.
-  if (window.SWITCHtubeEmbed) {
+  if (window.SwitchTubeEmbed) {
     // If the embed library is available, call `addVideo` directly.
     addVideo()
   } else {
     // If the embed library is not yet available, add `addVideo` as the event
-    // handler for the `SWITCHtubeEmbed:ScriptLoaded` event. This event will be
+    // handler for the `SwitchTubeEmbed:ScriptLoaded` event. This event will be
     // triggered by the embed library when it has finished loading to indicate
     // that it is available for usage.
-    window.addEventListener('SWITCHtubeEmbed:ScriptLoaded', addVideo)
+    window.addEventListener('SwitchTubeEmbed:ScriptLoaded', addVideo)
   }
 </script>
 
